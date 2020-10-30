@@ -45,40 +45,61 @@
     crossorigin="anonymous"></script>
   <script>
 
-    document.getElementById('addItem').addEventListener('click', event => {
-      event.preventDefault()
+    let items = JSON.parse(localStorage.getItem('items'))
 
-      let itemElem = document.createElement('li')
-      itemElem.className = 'list-group-item d-flex justify-content-between align-items-center'
-      itemElem.innerHTML = `
-        ${document.getElementById('item').value}
+    console.log(items)
+
+    const renderItems = () => {
+      document.getElementById('items').innerHTML = ''
+      for (let i = 0; i < items.length; i++) {
+        let itemElem = document.createElement('li')
+        itemElem.className = 'list-group-item d-flex justify-content-between align-items-center'
+        itemElem.innerHTML = `
+        ${items[i].text}
         <div>
           <button class="btn btn-success done">✓</button>
           <button class="btn btn-danger delete">X</button>
         </div>
       `
 
-      document.getElementById('items').append(itemElem)
+        document.getElementById('items').append(itemElem)
+      }
+    }
+
+
+    document.getElementById('addItem').addEventListener('click', event => {
+      event.preventDefault()
+      
+      items.push({
+        text: document.getElementById('item').value,
+        isDone: false
+      })
+
+      localStorage.setItem('items', JSON.stringify(items))
+
+      renderItems()
 
       document.getElementById('item').value = ''
     })
 
-    document.addEventListener('click', event => {
+    // document.addEventListener('click', event => {
 
-      if (event.target.classList.contains('delete')) {
-        event.target.parentNode.parentNode.remove()
+    //   if (event.target.classList.contains('delete')) {
+    //     event.target.parentNode.parentNode.remove()
 
-      } else if (event.target.classList.contains('done')) {
+    //   } else if (event.target.classList.contains('done')) {
 
-        let listItem = event.target.parentNode.parentNode
+    //     let listItem = event.target.parentNode.parentNode
 
-        if (listItem.style.color === 'green') {
-          listItem.style.color = 'black'
-        } else {
-          listItem.style.color = 'green'
-        }
-      }
-    })
+    //     if (listItem.style.color === 'green') {
+    //       listItem.style.color = 'black'
+    //     } else {
+    //       listItem.style.color = 'green'
+    //     }
+    //   }
+    // })
+
+    renderItems()
 
   </script>
 </body>
