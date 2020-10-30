@@ -67,6 +67,16 @@
 
       if (event.target.classList.contains('delete')) {
         event.target.parentNode.parentNode.remove()
+
+      } else if (event.target.classList.contains('done')) {
+
+        let listItem = event.target.parentNode.parentNode
+
+        if (listItem.style.color === 'green') {
+          listItem.style.color = 'black'
+        } else {
+          listItem.style.color = 'green'
+        }
       }
     })
 
